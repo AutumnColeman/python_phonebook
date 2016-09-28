@@ -23,6 +23,42 @@ Electronic Phone Book
 """
 menu_number = raw_input("What do you want to do (1-5)? ")
 
-if menu_number == 1:
+#Looks up an entry
+if menu_number == "1":
     name = raw_input("Name? ")
-    whitebook.get(name, "There is no entry under that name.")
+    print "Found entry for %s: %s" % (name, whitebook[name])
+
+else:
+    pass
+
+#Sets an entry
+if menu_number == "2":
+    print "Please add the name and number to create a new entry:"
+    add_entry_name = raw_input("Name: ")
+    add_entry_phone = raw_input("Phone Number: ")
+    whitebook[add_entry_name] = add_entry_phone
+    print "Entry stored for %s" % add_entry_name
+else:
+    pass
+
+#Deletes an entry
+if menu_number == "3":
+    print "Please enter a name to delete from the phonebook."
+    delete_entry = raw_input("Name: ")
+    del whitebook[delete_entry]
+    print "Deleted entry for %s" % delete_entry
+else:
+    pass
+
+#Lists all entries
+if menu_number == "4":
+    print "All entries in your phonebook:"
+    entries = whitebook.items()
+    print entries
+else:
+    pass
+
+#Quits program
+if menu_number == "5":
+    print "Goodbye!"
+    raise SystemExit
