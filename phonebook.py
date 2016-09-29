@@ -17,6 +17,47 @@ else:
     phonebook_dict = {}
 
 while True:
+    #Looks up an entry
+    def look_up():
+        name = raw_input("Name? ").lower()
+        if name in phonebook_dict:
+            phone_number = phonebook_dict[name]
+            print "Found entry for %s: %s" % (name, phone_number)
+        else:
+            print "Entry for %s not found." % name
+
+    #Sets an entry
+    def set_entry():
+        print "Please add the name and number to create a new entry:"
+        name = raw_input("Name: ").lower()
+        phone = raw_input("Phone Number: ")
+        phonebook_dict[name] =phone
+        print "Entry stored for %s" % name
+
+    #Deletes an entry
+    def delete_entry():
+        print "Please enter a name to delete from the phonebook."
+        name = raw_input("Name: ").lower()
+        if name in phonebook_dict:
+            del phonebook_dict[name]
+            print "Deleted entry for %s" % name
+        else:
+            print "%s not found." % name
+
+    #Lists all entries
+    def list_entries():
+        for name, phone_number in phonebook_dict.items():
+            print "%s's number: %s" % (name, phone_number)
+
+
+    #Saves all entries
+    def save_entries():
+        phonebook_file = open("phonebook.pickle", "w")
+        pickle.dump(phonebook_dict, phonebook_file)
+        phonebook_file.close()
+        print "Entries saved to the phonebook."
+
+
     print """
     Electronic Phone Book
     =====================
@@ -30,49 +71,18 @@ while True:
     """
     menu_number = int(raw_input("What do you want to do (1-6)? "))
 
-    #Looks up an entry
     if menu_number == 1:
-        name = raw_input("Name? ").lower()
-        if name in phonebook_dict:
-            phone_number = phonebook_dict[name]
-            print "Found entry for %s: %s" % (name, phone_number)
-        else:
-            print "Entry for %s not found." % name
-
-    #Sets an entry
+        look_up()
     elif menu_number == 2:
-        print "Please add the name and number to create a new entry:"
-        name = raw_input("Name: ").lower()
-        phone = raw_input("Phone Number: ")
-        phonebook_dict[name] =phone
-        print "Entry stored for %s" % name
-
-    #Deletes an entry
+        set_entry()
     elif menu_number == 3:
-        print "Please enter a name to delete from the phonebook."
-        name = raw_input("Name: ")
-        if name in phonebook_dict:
-            del phonebook_dict[name]
-            print "Deleted entry for %s" % name
-        else:
-            print "%s not found." % name
-
-    #Lists all entries
+        delete_entry()
     elif menu_number == 4:
-        for name, phone_number in phonebook_dict.items():
-            print "%s's number: %s" % (name, phone_number)
-
-
-    #Saves all entries
+        list_entries()
     elif menu_number == 5:
-        phonebook_file = open("phonebook.pickle", "w")
-        pickle.dump(phonebook_dict, phonebook_file)
-        phonebook_file.close()
-        print "Entries saved to the phonebook."
-
-    #Quits program
+        save_entries()
     elif menu_number == 6:
         print "Goodbye!"
         break
-    else:
-        "Invalid option."
+    elif menu_number > 6:
+        print "Invalid option. Please enter a valid option (1-6)."
