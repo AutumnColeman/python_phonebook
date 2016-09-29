@@ -7,6 +7,8 @@
 import pickle
 from os.path import exists
 
+filename = "phonebook2.pickle"
+
 if exists('phonebook.pickle'):
     print "Loading phonebook"
     phonebook_file = open("phonebook.pickle", "r")
@@ -19,20 +21,31 @@ else:
 while True:
     #Looks up an entry
     def look_up():
-        name = raw_input("Name? ").lower()
+        name = raw_input("Name? ")
         if name in phonebook_dict:
-            phone_number = phonebook_dict[name]
-            print "Found entry for %s: %s" % (name, phone_number)
+            info_dict = phonebook_dict[name]
+            print "Found entry for %s: " % (name)
+            print "Cell Phone Number: %s" % (info_dict["cell"])
+            print "Home Phone Number: %s" % (info_dict["home"])
+            print "Work Phone Number: %s" % (info_dict["work"])
+
         else:
             print "Entry for %s not found." % name
 
     #Sets an entry
     def set_entry():
         print "Please add the name and number to create a new entry:"
-        name = raw_input("Name: ").lower()
-        phone = raw_input("Phone Number: ")
-        phonebook_dict[name] =phone
+        name = raw_input("Name: ").strip()
+        cell_phone = raw_input("Cell Phone Number? ")
+        home_phone = raw_input("Home Phone Number? ")
+        work_phone = raw_input("Work Phone Number? ")
+        info_dict = {
+            "Cell": cell_phone,
+            "Home": home_phone,
+            "Work": work_phone}
+        phonebook_dict[name] = info_dict
         print "Entry stored for %s" % name
+
 
     #Deletes an entry
     def delete_entry():
@@ -46,8 +59,13 @@ while True:
 
     #Lists all entries
     def list_entries():
-        for name, phone_number in phonebook_dict.items():
-            print "%s's number: %s" % (name, phone_number)
+        for name, info_dict in phonebook_dict.items():
+            print "Found entry for %s: " % (name)
+            print "*" * 30
+            print "Cell Phone Number: %s" % (info_dict["Cell"])
+            print "Home Phone Number: %s" % (info_dict["Home"])
+            print "Work Phone Number: %s" % (info_dict["Work"])
+            print "*" * 30
 
 
     #Saves all entries
