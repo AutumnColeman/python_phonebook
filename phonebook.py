@@ -8,84 +8,71 @@ import pickle
 from os.path import exists
 
 if exists('phonebook.pickle'):
-    # open the file in read mode (r)
-    whitebook = open('phonebook.pickle', 'r')
-    # load the contents from the file and store it in the phonebook_dict variable
-    whitebook_dict = pickle.load(whitebook)
-else:
-    whitebook_dict = {}
-
-#whitebook = {
-#    "Autumn": "770-555-5555",
-#    "Bob": "404-555-5555",
-#    "Cat": "678-555-5555",
-#    "Dog": "470-555-5555"
-#}
-
-print """
-Electronic Phone Book
-=====================
-
-1\. Look up an entry
-2\. Set an entry
-3\. Delete an entry
-4\. List all entries
-5\. Save entries
-6\. Quit
-"""
-menu_number = raw_input("What do you want to do (1-6)? ")
-
-#Looks up an entry
-if menu_number == "1":
-    name = raw_input("Name? ").lower()
-    print "Found entry for %s: %s" % (name, whitebook[name])
+    print "Loading phonebook"
+    phonebook_file = open("phonebook.pickle", "r")
+    phonebook_dict = pickle.load(phonebook_file)
+    phonebook_file.close()
 
 else:
-    print "Entry not found."
+    phonebook_dict = {}
 
-#Sets an entry
-if menu_number == "2":
-    print "Please add the name and number to create a new entry:"
-    add_entry_name = raw_input("Name: ")
-    add_entry_phone = raw_input("Phone Number: ")
-    whitebook[add_entry_name] = add_entry_phone
-    print "Entry stored for %s" % add_entry_name
-else:
-    print "Failure to store entry."
+while True:
+    print """
+    Electronic Phone Book
+    =====================
 
-#Deletes an entry
-if menu_number == "3":
-    print "Please enter a name to delete from the phonebook."
-    delete_entry = raw_input("Name: ")
-    del whitebook[delete_entry]
-    print "Deleted entry for %s" % delete_entry
-else:
-    print "Contact not found."
+    1\. Look up an entry
+    2\. Set an entry
+    3\. Delete an entry
+    4\. List all entries
+    5\. Save entries
+    6\. Quit
+    """
+    menu_number = int(raw_input("What do you want to do (1-6)? "))
 
-#Lists all entries
-if menu_number == "4":
-    print "All entries in the phonebook:"
-    entries = whitebook.items()
-    print entries
-else:
-    pass
+    #Looks up an entry
+    if menu_number == 1:
+        name = raw_input("Name? ").lower()
+        if name in phonebook_dict:
+            phone_number = phonebook_dict[name]
+            print "Found entry for %s: %s" % (name, phone_number)
+        else:
+            print "Entry for %s not found." % name
 
-#Saves all entries
-if menu_number == "5":
-    # open the file in write mode (w)
-    whitebook = open('phonebook.pickle', 'w')
-    # dump the contents of the phonebook_dict into myfile - the open file
-    pickle.dump(whitebook_dict, whitebook)
-    # close myfile
-    whitebook.close()
-    print "All entries saved to the phonebook."
+    #Sets an entry
+    elif menu_number == 2:
+        print "Please add the name and number to create a new entry:"
+        name = raw_input("Name: ").lower()
+        phone = raw_input("Phone Number: ")
+        phonebook_dict[name] =phone
+        print "Entry stored for %s" % name
 
-else:
-    print "Entries failed to save."
+    #Deletes an entry
+    elif menu_number == 3:
+        print "Please enter a name to delete from the phonebook."
+        name = raw_input("Name: ")
+        if name in phonebook_dict:
+            del phonebook_dict[name]
+            print "Deleted entry for %s" % name
+        else:
+            print "%s not found." % name
 
-#Quits program
-if menu_number == "6":
-    print "Goodbye!"
-    raise SystemExit
-else:
-    "Invalid option."
+    #Lists all entries
+    elif menu_number == 4:
+        for name, phone_number in phonebook_dict.items():
+            print "%s's number: %s" % (name, phone_number)
+
+
+    #Saves all entries
+    elif menu_number == 5:
+        phonebook_file = open("phonebook.pickle", "w")
+        pickle.dump(phonebook_dict, phonebook_file)
+        phonebook_file.close()
+        print "Entries saved to the phonebook."
+
+    #Quits program
+    elif menu_number == 6:
+        print "Goodbye!"
+        break
+    else:
+        "Invalid option."
