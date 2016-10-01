@@ -25,9 +25,9 @@ while True:
         if name in phonebook_dict:
             info_dict = phonebook_dict[name]
             print "Found entry for %s: " % (name)
-            print "Cell Phone Number: %s" % (info_dict["cell"])
-            print "Home Phone Number: %s" % (info_dict["home"])
-            print "Work Phone Number: %s" % (info_dict["work"])
+            print "Cell Phone Number: %s" % (info_dict["Cell"])
+            print "Home Phone Number: %s" % (info_dict["Home"])
+            print "Work Phone Number: %s" % (info_dict["Work"])
 
         else:
             print "Entry for %s not found." % name
@@ -87,6 +87,7 @@ while True:
     5\. Save entries
     6\. Quit
     """
+
     menu_number = int(raw_input("What do you want to do (1-6)? "))
 
     if menu_number == 1:
